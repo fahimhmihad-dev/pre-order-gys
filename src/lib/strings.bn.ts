@@ -44,7 +44,7 @@ export const S = {
     advance: "অগ্রিম",
     fullPayment: "পুরো মূল্য",
     estDelivery: "আনুমানিক ডেলিভারি",
-    digital: "WhatsApp ন্য্যাম্ব্যর্যে ড্যেলিভ্যারি",
+    digital: "ডিজিট্যাল প্র্যোড্যাক্ট — WhatsApp ন্য্যাম্ব্যর্যে ড্যেলিভ্যারি",
     deadline: "শেষ সময়",
     details: "বিস্তারিত দেখুন",
     live: "লাইভ",
