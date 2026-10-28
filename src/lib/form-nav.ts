@@ -15,13 +15,13 @@ export function formKeyNav(e: KeyboardEvent<HTMLFormElement>) {
   if (e.key === "Escape") {
     if (i > 0) {
       e.preventDefault();
-      fields[i - 1].focus();
+      fields[i - 1]?.focus();
     }
     return;
   }
   if (e.key !== "Enter") return;
   if (t instanceof HTMLTextAreaElement && !e.ctrlKey) return;
   e.preventDefault();
-  if (i < fields.length - 1) fields[i + 1].focus();
+  if (i < fields.length - 1) fields[i + 1]?.focus();
   else e.currentTarget.requestSubmit();
 }

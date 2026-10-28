@@ -4,7 +4,7 @@ export function rpcErrorText(msg: string | undefined): string {
   const m = msg ?? "";
   if (m.includes("OVERBOOK")) {
     const n = m.match(/only (\d+)/)?.[1] ?? "0";
-    return S.form.overQty(n.replace(/[0-9]/g, (d) => "০১২৩৪৫৬৭৮৯"[Number(d)]));
+    return S.form.overQty(n.replace(/[0-9]/g, (d) => "০১২৩৪৫৬৭৮৯"[Number(d)] ?? d));
   }
   if (m.includes("BAD_PHONE")) return S.form.badPhone;
   if (m.includes("BAD_EMAIL")) return S.form.badEmail;

@@ -19,9 +19,9 @@ type Tracked = {
 };
 
 export const Route = createFileRoute("/track")({
-  validateSearch: (s: Record<string, unknown>) => ({
-    code: typeof s.code === "string" ? s.code : undefined,
-    phone: typeof s.phone === "string" ? s.phone : undefined,
+  validateSearch: (s: Record<string, unknown>): { code?: string; phone?: string } => ({
+    ...(typeof s["code"] === "string" ? { code: s["code"] } : {}),
+    ...(typeof s["phone"] === "string" ? { phone: s["phone"] } : {}),
   }),
   head: () => ({
     meta: [

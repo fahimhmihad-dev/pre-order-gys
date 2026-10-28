@@ -67,8 +67,8 @@ function Dashboard() {
             ))}
           </div>
           <div className="mt-1 flex justify-between font-mono text-[11px]">
-            <span>{toBanglaDigits(`${days[0].d.getDate()}/${days[0].d.getMonth() + 1}`)}</span>
-            <span>{toBanglaDigits(`${days[29].d.getDate()}/${days[29].d.getMonth() + 1}`)}</span>
+            <span>{toBanglaDigits(`${days[0]!.d.getDate()}/${days[0]!.d.getMonth() + 1}`)}</span>
+            <span>{toBanglaDigits(`${days[29]!.d.getDate()}/${days[29]!.d.getMonth() + 1}`)}</span>
           </div>
         </Card>
         <Card>

@@ -105,7 +105,7 @@ function OrdersAdmin() {
       <PageHead title={S.admin.sidebar.orders}>
         <Btn size="sm" variant="outline" onClick={exportCsv} className="no-print"><Download /> {O.export}</Btn>
         <Btn size="sm" variant="outline" onClick={() => window.print()} className="no-print"><Printer /> {O.print}</Btn>
-        <Btn size="sm" className="no-print" onClick={() => setEdit({ campaign_id: camps[0]?.id, quantity: 1, payment_method: methods[0]?.id ?? "cod", status: "pending", payment_status: "unpaid" })}>
+        <Btn size="sm" className="no-print" onClick={() => setEdit({ ...(camps[0] ? { campaign_id: camps[0].id } : {}), quantity: 1, payment_method: methods[0]?.id ?? "cod", status: "pending", payment_status: "unpaid" })}>
           <Plus /> {O.add}
         </Btn>
       </PageHead>
@@ -258,8 +258,8 @@ function OrderEditor({
     setBusy(false);
     if (res.error) return void toast.error(rpcErrorText(res.error.message));
     const changes: Record<string, unknown> = { code: res.data.order_code };
-    if (initial.status && initial.status !== payload.status) changes.status = `${initial.status} → ${payload.status}`;
-    if (initial.payment_status && initial.payment_status !== payload.payment_status) changes.payment = `${initial.payment_status} → ${payload.payment_status}`;
+    if (initial.status && initial.status !== payload.status) changes["status"] = `${initial.status} → ${payload.status}`;
+    if (initial.payment_status && initial.payment_status !== payload.payment_status) changes["payment"] = `${initial.payment_status} → ${payload.payment_status}`;
     await logActivity(o.id ? "update" : "create", "order", res.data.id, changes);
     toast.success(S.common.saved);
     onSaved();

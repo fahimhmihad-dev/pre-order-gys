@@ -10,7 +10,7 @@ import { rpcErrorText } from "@/lib/rpc-errors";
 import type { CampaignWithProgress, PaymentMethod } from "@/types";
 import { Btn, Card, Field, Input, Select, Textarea, btnVariants } from "@/components/brutal";
 
-type Errs = Partial<Record<string, string>>;
+type Errs = { name?: string; phone?: string; alt?: string; email?: string; trx?: string; qty?: string };
 
 export function OrderForm({
   c,
