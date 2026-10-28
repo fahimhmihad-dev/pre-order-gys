@@ -98,6 +98,7 @@ function CampaignPage() {
             <div className="flex flex-wrap items-center gap-2">
               <Badge tone={c.status}>{S.campaignStatus[c.status]}</Badge>
               <Badge tone="cancelled">● {S.campaign.live}</Badge>
+              <Badge tone="confirmed">{S.campaign.digital}</Badge>
             </div>
             <h1 className="text-4xl sm:text-5xl">{c.title}</h1>
             <p className="whitespace-pre-line text-lg">{c.description}</p>

@@ -23,7 +23,7 @@ function CustomersAdmin() {
   const customers = useMemo(() => {
     const m = new Map<string, Cust>();
     for (const o of orders) {
-      const c = m.get(o.phone) ?? { phone: o.phone, name: o.customer_name, area: o.area, orders: [], qty: 0, spent: 0, last: o.created_at };
+      const c = m.get(o.phone) ?? { phone: o.phone, name: o.customer_name, area: o.email, orders: [], qty: 0, spent: 0, last: o.created_at };
       c.orders.push(o);
       if (o.status !== "cancelled") {
         c.qty += o.quantity;
@@ -51,7 +51,7 @@ function CustomersAdmin() {
         cols={[
           { key: "n", label: S.admin.orders.customer, render: (c) => c.name },
           { key: "p", label: S.admin.orders.phone, render: (c) => <span className="font-mono">{c.phone}</span> },
-          { key: "a", label: S.admin.orders.area, render: (c) => c.area },
+          { key: "a", label: S.admin.orders.email, render: (c) => <span className="font-mono">{c.area}</span> },
           { key: "o", label: C.orders, render: (c) => bnNum(c.orders.length) },
           { key: "q", label: C.qty, render: (c) => bnNum(c.qty) },
           { key: "s", label: C.spent, render: (c) => money(c.spent) },

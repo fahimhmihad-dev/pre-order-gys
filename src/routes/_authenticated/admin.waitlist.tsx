@@ -29,7 +29,7 @@ function WaitlistAdmin() {
   async function convert(w: WaitlistEntry) {
     const { data: o, error } = await supabase
       .from("orders")
-      .insert({ campaign_id: w.campaign_id, customer_name: w.name, phone: w.phone, quantity: w.quantity, address: S.admin.waitlist.fromWaitlist, admin_note: S.admin.waitlist.fromWaitlist })
+      .insert({ campaign_id: w.campaign_id, customer_name: w.name, phone: w.phone, quantity: w.quantity, admin_note: S.admin.waitlist.fromWaitlist })
       .select("id, order_code")
       .single();
     if (error) return void toast.error(rpcErrorText(error.message));

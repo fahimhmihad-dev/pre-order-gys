@@ -29,6 +29,7 @@ export function OrderForm({
   const [f, setF] = useState({
     name: "",
     phone: "",
+    email: "",
     alt: "",
     address: "",
     area: "",
@@ -55,8 +56,7 @@ export function OrderForm({
     if (!PHONE_RE.test(f.phone)) e.phone = S.form.badPhone;
     if (!waitlistMode) {
       if (f.alt && !PHONE_RE.test(f.alt)) e.alt = S.form.badPhone;
-      if (f.address.trim().length < 5) e.address = S.form.badAddress;
-      if (!f.area.trim()) e.area = S.form.required;
+      if (!/^[^@\s]+@[^@\s]+\.[^@\s]+$/.test(f.email.trim())) e.email = S.form.badEmail;
       if (needsTrx && f.trx.trim().length < 4) e.trx = S.form.badTrx;
     }
     if (!Number.isInteger(qty) || qty < 1 || qty > maxQty) e.qty = S.form.badQty(bnNum(maxQty));
@@ -87,6 +87,7 @@ export function OrderForm({
       _campaign_id: c.id,
       _name: f.name,
       _phone: f.phone,
+      _email: f.email,
       _alt_phone: f.alt,
       _address: f.address,
       _area: f.area,
@@ -158,13 +159,10 @@ export function OrderForm({
         )}
         {!waitlistMode && (
           <>
-            <Field label={S.form.address} error={errs.address} className="col-span-2" htmlFor="of-addr">
-              <Input id="of-addr" value={f.address} onChange={set("address")} placeholder={S.form.addressPh} maxLength={500} />
+            <Field label={S.form.email} error={errs.email} className="col-span-2" htmlFor="of-email">
+              <Input id="of-email" type="email" value={f.email} onChange={set("email")} placeholder={S.form.emailPh} autoComplete="email" maxLength={200} />
             </Field>
-            <Field label={S.form.area} error={errs.area} htmlFor="of-area">
-              <Input id="of-area" value={f.area} onChange={set("area")} placeholder={S.form.areaPh} maxLength={100} />
-            </Field>
-            <Field label={`${S.form.quantity} (≤ ${bnNum(maxQty)})`} error={errs.qty} htmlFor="of-qty">
+            <Field label={`${S.form.quantity} (≤ ${bnNum(maxQty)})`} error={errs.qty} htmlFor="of-qty" className="col-span-2">
               <Input id="of-qty" value={f.qty} onChange={set("qty", true)} inputMode="numeric" />
             </Field>
             <Field label={S.form.paymentMethod} className={needsTrx ? "" : "col-span-2"} htmlFor="of-method">

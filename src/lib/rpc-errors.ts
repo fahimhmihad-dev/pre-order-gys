@@ -7,6 +7,7 @@ export function rpcErrorText(msg: string | undefined): string {
     return S.form.overQty(n.replace(/[0-9]/g, (d) => "০১২৩৪৫৬৭৮৯"[Number(d)]));
   }
   if (m.includes("BAD_PHONE")) return S.form.badPhone;
+  if (m.includes("BAD_EMAIL")) return S.form.badEmail;
   if (m.includes("BAD_NAME")) return S.form.badName;
   if (m.includes("BAD_ADDRESS")) return S.form.badAddress;
   if (m.includes("BAD_TRX")) return S.form.badTrx;
