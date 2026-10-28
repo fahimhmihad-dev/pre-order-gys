@@ -1,7 +1,7 @@
 const BN = "০১২৩৪৫৬৭৮৯";
 
 export function toBanglaDigits(v: string | number): string {
-  return String(v).replace(/[0-9]/g, (d) => BN[Number(d)]);
+  return String(v).replace(/[0-9]/g, (d) => BN[Number(d)] ?? d);
 }
 
 export function toEnglishDigits(v: string): string {

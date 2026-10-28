@@ -51,7 +51,7 @@ function OrdersAdmin() {
     if (to && new Date(o.created_at) > new Date(`${to}T23:59:59`)) return false;
     if (q) {
       const s = toEnglishDigits(q).toLowerCase();
-      if (!o.phone.includes(s) && !o.order_code.toLowerCase().includes(s) && !o.customer_name.toLowerCase().includes(s)) return false;
+      if (!o.email.includes(s) && !o.phone.includes(s) && !o.order_code.toLowerCase().includes(s) && !o.customer_name.toLowerCase().includes(s)) return false;
     }
     return true;
   });
@@ -78,15 +78,14 @@ function OrdersAdmin() {
     const H = CSV_HEADERS;
     downloadCsv(
       `orders-${formatDate(new Date())}.csv`,
-      [H.code, H.campaign, H.customer, H.phone, H.altPhone, H.address, H.area, H.qty, H.amount, H.method, H.trx, H.payment, H.status, H.note, H.date],
+      [H.code, H.campaign, H.customer, H.phone, H.email, H.altPhone, H.qty, H.amount, H.method, H.trx, H.payment, H.status, H.note, H.date],
       rows.map((o) => [
         o.order_code,
         campMap.get(o.campaign_id)?.title ?? "",
         o.customer_name,
         o.phone,
+        o.email,
         o.alt_phone,
-        o.address,
-        o.area,
         o.quantity,
         o.quantity * Number(campMap.get(o.campaign_id)?.price ?? 0),
         methodLabel(o.payment_method),
@@ -106,7 +105,7 @@ function OrdersAdmin() {
       <PageHead title={S.admin.sidebar.orders}>
         <Btn size="sm" variant="outline" onClick={exportCsv} className="no-print"><Download /> {O.export}</Btn>
         <Btn size="sm" variant="outline" onClick={() => window.print()} className="no-print"><Printer /> {O.print}</Btn>
-        <Btn size="sm" className="no-print" onClick={() => setEdit({ campaign_id: camps[0]?.id, quantity: 1, payment_method: methods[0]?.id ?? "cod", status: "pending", payment_status: "unpaid" })}>
+        <Btn size="sm" className="no-print" onClick={() => setEdit({ ...(camps[0] ? { campaign_id: camps[0].id } : {}), quantity: 1, payment_method: methods[0]?.id ?? "cod", status: "pending", payment_status: "unpaid" })}>
           <Plus /> {O.add}
         </Btn>
       </PageHead>
@@ -154,7 +153,7 @@ function OrdersAdmin() {
           { key: "cm", label: O.campaign, render: (o) => campMap.get(o.campaign_id)?.title ?? "—" },
           { key: "n", label: O.customer, render: (o) => o.customer_name },
           { key: "p", label: O.phone, render: (o) => <span className="font-mono">{o.phone}</span> },
-          { key: "a", label: O.area, render: (o) => o.area },
+          { key: "em", label: O.email, render: (o) => <span className="font-mono">{o.email || "—"}</span> },
           { key: "q", label: O.qty, render: (o) => bnNum(o.quantity) },
           { key: "am", label: O.amount, render: (o) => money(o.quantity * Number(campMap.get(o.campaign_id)?.price ?? 0)) },
           { key: "m", label: O.method, render: (o) => methodLabel(o.payment_method) },
@@ -185,7 +184,7 @@ function OrdersAdmin() {
               [O.campaign, campMap.get(view.campaign_id)?.title ?? ""],
               [O.customer, view.customer_name],
               [O.phone, `${view.phone}${view.alt_phone ? ` / ${view.alt_phone}` : ""}`],
-              [O.address, `${view.address}, ${view.area}`],
+              [O.email, view.email || "—"],
               [O.qty, bnNum(view.quantity)],
               [O.method, methodLabel(view.payment_method)],
               [O.trx, view.transaction_id || "—"],
@@ -223,7 +222,7 @@ function OrderEditor({
   const [o, setO] = useState<Partial<Order>>(initial);
   const [busy, setBusy] = useState(false);
   const set = <K extends keyof Order>(k: K, v: Order[K]) => setO((s) => ({ ...s, [k]: v }));
-  const txt = (k: "customer_name" | "address" | "area" | "note" | "admin_note") => ({
+  const txt = (k: "customer_name" | "email" | "address" | "area" | "note" | "admin_note") => ({
     value: (o[k] as string) ?? "",
     onChange: (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => set(k, e.target.value),
   });
@@ -234,7 +233,7 @@ function OrderEditor({
 
   async function save(e: React.FormEvent) {
     e.preventDefault();
-    if (!o.customer_name?.trim() || !o.address?.trim() || !o.campaign_id) return void toast.error(S.form.required);
+    if (!o.customer_name?.trim() || !o.campaign_id) return void toast.error(S.form.required);
     if (!PHONE_RE.test(o.phone ?? "")) return void toast.error(S.form.badPhone);
     setBusy(true);
     const payload = {
@@ -242,7 +241,8 @@ function OrderEditor({
       customer_name: o.customer_name.trim(),
       phone: o.phone!,
       alt_phone: o.alt_phone ?? "",
-      address: o.address.trim(),
+      address: o.address?.trim() ?? "",
+      email: o.email?.trim().toLowerCase() ?? "",
       area: o.area ?? "",
       quantity: Number(o.quantity) || 1,
       payment_method: o.payment_method ?? "cod",
@@ -258,8 +258,8 @@ function OrderEditor({
     setBusy(false);
     if (res.error) return void toast.error(rpcErrorText(res.error.message));
     const changes: Record<string, unknown> = { code: res.data.order_code };
-    if (initial.status && initial.status !== payload.status) changes.status = `${initial.status} → ${payload.status}`;
-    if (initial.payment_status && initial.payment_status !== payload.payment_status) changes.payment = `${initial.payment_status} → ${payload.payment_status}`;
+    if (initial.status && initial.status !== payload.status) changes["status"] = `${initial.status} → ${payload.status}`;
+    if (initial.payment_status && initial.payment_status !== payload.payment_status) changes["payment"] = `${initial.payment_status} → ${payload.payment_status}`;
     await logActivity(o.id ? "update" : "create", "order", res.data.id, changes);
     toast.success(S.common.saved);
     onSaved();
@@ -277,8 +277,7 @@ function OrderEditor({
         <Field label={S.form.name}><Input {...txt("customer_name")} /></Field>
         <Field label={S.form.phone}><Input {...dig("phone")} inputMode="tel" maxLength={11} /></Field>
         <Field label={S.form.altPhone}><Input {...dig("alt_phone")} inputMode="tel" maxLength={11} /></Field>
-        <Field label={S.form.area}><Input {...txt("area")} /></Field>
-        <Field label={S.form.address} className="col-span-2"><Input {...txt("address")} /></Field>
+        <Field label={O.email}><Input type="email" {...txt("email")} /></Field>
         <Field label={O.qty}>
           <Input value={String(o.quantity ?? 1)} inputMode="numeric" onChange={(e) => set("quantity", Number(toEnglishDigits(e.target.value).replace(/\D/g, "")) || 0)} />
         </Field>

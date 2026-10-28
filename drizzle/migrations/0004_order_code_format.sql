@@ -1,0 +1,1 @@
+alter table public.orders alter column order_code set default ('GYS-PRE-' || to_char(now(),'YYYY') || '-' || lpad(nextval('public.order_code_seq')::text, 6, '0'));

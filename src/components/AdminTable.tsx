@@ -24,16 +24,16 @@ export function AdminTable<T>({
   cols: Col<T>[];
   rows: T[];
   getId: (r: T) => string;
-  tint?: (r: T) => string | undefined;
-  loading?: boolean;
-  selectable?: boolean;
-  selected?: Set<string>;
-  setSelected?: (s: Set<string>) => void;
-  onView?: (r: T) => void;
-  onEdit?: (r: T) => void;
-  onDelete?: (r: T) => void;
-  onSave?: (r: T) => void;
-  extra?: (r: T) => ReactNode;
+  tint?: ((r: T) => string | undefined) | undefined;
+  loading?: boolean | undefined;
+  selectable?: boolean | undefined;
+  selected?: Set<string> | undefined;
+  setSelected?: ((s: Set<string>) => void) | undefined;
+  onView?: ((r: T) => void) | undefined;
+  onEdit?: ((r: T) => void) | undefined;
+  onDelete?: ((r: T) => unknown) | undefined;
+  onSave?: ((r: T) => void) | undefined;
+  extra?: ((r: T) => ReactNode) | undefined;
 }) {
   const [active, setActive] = useState<string | null>(null);
   const [del, setDel] = useState<T | null>(null);

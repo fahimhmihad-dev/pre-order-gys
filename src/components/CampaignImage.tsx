@@ -1,6 +1,6 @@
 import { cn } from "@/lib/utils";
 
-export function CampaignImage({ src, title, className }: { src?: string; title: string; className?: string }) {
+export function CampaignImage({ src, title, className }: { src?: string | undefined; title: string; className?: string | undefined }) {
   if (src) return <img src={src} alt={title} loading="lazy" className={cn("h-full w-full object-cover", className)} />;
   return (
     <div className={cn("grid-lines flex h-full w-full items-center justify-center bg-primary p-6", className)}>

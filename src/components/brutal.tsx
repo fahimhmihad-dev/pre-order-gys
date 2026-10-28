@@ -49,10 +49,10 @@ export function Field({
   htmlFor,
 }: {
   label: string;
-  error?: string;
+  error?: string | undefined;
   children: React.ReactNode;
-  className?: string;
-  htmlFor?: string;
+  className?: string | undefined;
+  htmlFor?: string | undefined;
 }) {
   return (
     <div className={cn("flex min-w-0 flex-col gap-1", className)}>
