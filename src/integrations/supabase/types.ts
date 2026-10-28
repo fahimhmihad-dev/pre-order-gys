@@ -152,6 +152,7 @@ export type Database = {
           campaign_id: string
           created_at: string
           customer_name: string
+          email: string
           id: string
           note: string
           order_code: string
@@ -164,13 +165,14 @@ export type Database = {
           updated_at: string
         }
         Insert: {
-          address: string
+          address?: string
           admin_note?: string
           alt_phone?: string
           area?: string
           campaign_id: string
           created_at?: string
           customer_name: string
+          email?: string
           id?: string
           note?: string
           order_code?: string
@@ -190,6 +192,7 @@ export type Database = {
           campaign_id?: string
           created_at?: string
           customer_name?: string
+          email?: string
           id?: string
           note?: string
           order_code?: string
@@ -351,6 +354,7 @@ export type Database = {
           _alt_phone: string
           _area: string
           _campaign_id: string
+          _email: string
           _name: string
           _note: string
           _payment_method: string
