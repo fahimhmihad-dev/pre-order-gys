@@ -10,7 +10,11 @@
 
 import { Route as rootRouteImport } from './routes/__root'
 import { Route as IndexRouteImport } from './routes/index'
+import { Route as AboutRouteImport } from './routes/about'
 import { Route as CampaignsRouteImport } from './routes/campaigns'
+import { Route as ContactRouteImport } from './routes/contact'
+import { Route as FaqRouteImport } from './routes/faq'
+import { Route as TrackRouteImport } from './routes/track'
 import { Route as CampaignSlugRouteImport } from './routes/campaign.$slug'
 
 const IndexRoute = IndexRouteImport.update({
@@ -18,9 +22,29 @@ const IndexRoute = IndexRouteImport.update({
   path: '/',
   getParentRoute: () => rootRouteImport,
 } as any)
+const AboutRoute = AboutRouteImport.update({
+  id: '/about',
+  path: '/about',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const CampaignsRoute = CampaignsRouteImport.update({
   id: '/campaigns',
   path: '/campaigns',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const ContactRoute = ContactRouteImport.update({
+  id: '/contact',
+  path: '/contact',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const FaqRoute = FaqRouteImport.update({
+  id: '/faq',
+  path: '/faq',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const TrackRoute = TrackRouteImport.update({
+  id: '/track',
+  path: '/track',
   getParentRoute: () => rootRouteImport,
 } as any)
 const CampaignSlugRoute = CampaignSlugRouteImport.update({
@@ -31,31 +55,69 @@ const CampaignSlugRoute = CampaignSlugRouteImport.update({
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
+  '/about': typeof AboutRoute
   '/campaigns': typeof CampaignsRoute
+  '/contact': typeof ContactRoute
+  '/faq': typeof FaqRoute
+  '/track': typeof TrackRoute
   '/campaign/$slug': typeof CampaignSlugRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
+  '/about': typeof AboutRoute
   '/campaigns': typeof CampaignsRoute
+  '/contact': typeof ContactRoute
+  '/faq': typeof FaqRoute
+  '/track': typeof TrackRoute
   '/campaign/$slug': typeof CampaignSlugRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
+  '/about': typeof AboutRoute
   '/campaigns': typeof CampaignsRoute
+  '/contact': typeof ContactRoute
+  '/faq': typeof FaqRoute
+  '/track': typeof TrackRoute
   '/campaign/$slug': typeof CampaignSlugRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
-  fullPaths: '/' | '/campaigns' | '/campaign/$slug'
+  fullPaths:
+    | '/'
+    | '/about'
+    | '/campaigns'
+    | '/contact'
+    | '/faq'
+    | '/track'
+    | '/campaign/$slug'
   fileRoutesByTo: FileRoutesByTo
-  to: '/' | '/campaigns' | '/campaign/$slug'
-  id: '__root__' | '/' | '/campaigns' | '/campaign/$slug'
+  to:
+    | '/'
+    | '/about'
+    | '/campaigns'
+    | '/contact'
+    | '/faq'
+    | '/track'
+    | '/campaign/$slug'
+  id:
+    | '__root__'
+    | '/'
+    | '/about'
+    | '/campaigns'
+    | '/contact'
+    | '/faq'
+    | '/track'
+    | '/campaign/$slug'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
+  AboutRoute: typeof AboutRoute
   CampaignsRoute: typeof CampaignsRoute
+  ContactRoute: typeof ContactRoute
+  FaqRoute: typeof FaqRoute
+  TrackRoute: typeof TrackRoute
   CampaignSlugRoute: typeof CampaignSlugRoute
 }
 
@@ -68,11 +130,39 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof IndexRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/about': {
+      id: '/about'
+      path: '/about'
+      fullPath: '/about'
+      preLoaderRoute: typeof AboutRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/campaigns': {
       id: '/campaigns'
       path: '/campaigns'
       fullPath: '/campaigns'
       preLoaderRoute: typeof CampaignsRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/contact': {
+      id: '/contact'
+      path: '/contact'
+      fullPath: '/contact'
+      preLoaderRoute: typeof ContactRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/faq': {
+      id: '/faq'
+      path: '/faq'
+      fullPath: '/faq'
+      preLoaderRoute: typeof FaqRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/track': {
+      id: '/track'
+      path: '/track'
+      fullPath: '/track'
+      preLoaderRoute: typeof TrackRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/campaign/$slug': {
@@ -87,7 +177,11 @@ declare module '@tanstack/react-router' {
 
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
+  AboutRoute: AboutRoute,
   CampaignsRoute: CampaignsRoute,
+  ContactRoute: ContactRoute,
+  FaqRoute: FaqRoute,
+  TrackRoute: TrackRoute,
   CampaignSlugRoute: CampaignSlugRoute,
 }
 export const routeTree = rootRouteImport
