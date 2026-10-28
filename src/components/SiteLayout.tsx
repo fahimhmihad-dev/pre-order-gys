@@ -28,7 +28,11 @@ export function SiteLayout({ children, ticker = true }: { children: ReactNode; t
         <div className="mx-auto flex max-w-7xl items-center justify-between gap-3 px-4 py-3">
           <Link to="/" className="flex min-w-0 items-center gap-2">
             {st?.logo_url ? (
-              <img src={st.logo_url} alt={BRAND} className="size-10 border-2 border-ink object-cover" />
+              <img
+                src={st.logo_url}
+                alt={BRAND}
+                className="size-10 shrink-0 border-[3px] border-ink bg-card object-contain p-0.5"
+              />
             ) : (
               <span className="flex size-10 shrink-0 items-center justify-center border-[3px] border-ink bg-primary font-mono text-lg font-black text-primary-foreground">
                 G
@@ -88,7 +92,16 @@ export function SiteLayout({ children, ticker = true }: { children: ReactNode; t
       <footer className="border-t-[3px] border-ink bg-secondary text-secondary-foreground">
         <div className="mx-auto grid max-w-7xl gap-6 px-4 py-8 sm:grid-cols-3">
           <div>
-            <p className="font-display text-xl font-extrabold uppercase">{BRAND}</p>
+            <div className="flex items-center gap-2">
+              {st?.logo_url && (
+                <img
+                  src={st.logo_url}
+                  alt=""
+                  className="size-9 shrink-0 border-[3px] border-secondary-foreground bg-card object-contain p-0.5"
+                />
+              )}
+              <p className="font-display text-xl font-extrabold uppercase">{BRAND}</p>
+            </div>
             <p className="mt-2 text-sm opacity-80">{st?.tagline}</p>
           </div>
           <div className="flex flex-col gap-1">
