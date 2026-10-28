@@ -134,7 +134,7 @@ export const S = {
   track: {
     title: "অর্ডার ট্র্যাক করুন",
     orderId: "অর্ডার আইডি",
-    orderIdPh: "GYS-2026-000123",
+    orderIdPh: "GYS-PRE-2026-000123",
     phone: "মোবাইল নম্বর",
     submit: "খুঁজুন",
     notFound: "এই অর্ডার আইডি ও ফোন নম্বরে কোনো অর্ডার পাওয়া যায়নি।",
