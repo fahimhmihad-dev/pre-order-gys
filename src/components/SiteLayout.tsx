@@ -31,7 +31,7 @@ export function SiteLayout({ children, ticker = true }: { children: ReactNode; t
               <img
                 src={st.logo_url}
                 alt={BRAND}
-                className="size-10 shrink-0 border-[3px] border-ink bg-card object-contain p-0.5"
+                className="size-10 shrink-0 object-contain"
               />
             ) : (
               <span className="flex size-10 shrink-0 items-center justify-center border-[3px] border-ink bg-primary font-mono text-lg font-black text-primary-foreground">
@@ -97,7 +97,7 @@ export function SiteLayout({ children, ticker = true }: { children: ReactNode; t
                 <img
                   src={st.logo_url}
                   alt=""
-                  className="size-9 shrink-0 border-[3px] border-secondary-foreground bg-card object-contain p-0.5"
+                  className="size-9 shrink-0 object-contain"
                 />
               )}
               <p className="font-display text-xl font-extrabold uppercase">{BRAND}</p>
