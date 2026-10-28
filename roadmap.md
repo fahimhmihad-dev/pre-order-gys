@@ -6,4 +6,5 @@
 - [x] Site logo in header/footer + browser-tab icon (favicon)
 - [x] "মোবাইল নম্বর" labels → "WhatsApp নম্বর" (track page + preorder form)
 - [x] Remove the boxed icon shown beside/around the logo inside the site
-- [ ] Fix Bangla spelling across the whole website (strings.bn.ts + DB copy: settings, campaigns, FAQs)
+- [x] Fix Bangla spelling in the app's own text (src/lib/strings.bn.ts) — verified clean, build OK
+- [ ] Fix Bangla spelling in the text stored in the site settings, FAQs and the two campaigns (hero line, ticker, the four steps, about, footer, payment instructions, questions, campaign titles)
