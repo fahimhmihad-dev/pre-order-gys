@@ -1,5 +1,5 @@
 # Roadmap
-- [ ] Fix logo links on Vercel/custom domains and verify header/footer rendering
+- [x] Fix logo links on Vercel/custom domains and verify header/footer rendering
 - [x] Database, public site, admin panel (Bangla, brutalist)
 - [x] Digital products: no shipping address; collect email for delivery; digital seed campaigns
 - [x] Order ID format GYS-PRE-YYYY-NNNNNN
