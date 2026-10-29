@@ -6,6 +6,7 @@ import { ArrowDown, ArrowUp, Plus, Trash2 } from "lucide-react";
 import { supabase } from "@/integrations/supabase/client";
 import { S } from "@/lib/strings.bn";
 import { formKeyNav } from "@/lib/form-nav";
+import { resolveAssetUrl } from "@/lib/asset-url";
 import { adminSettingsQuery } from "@/lib/admin-queries";
 import { isAdminRole, logActivity, uploadImage, useAdmin } from "@/lib/admin";
 import { PageHead } from "@/components/AdminTable";
@@ -51,7 +52,7 @@ function SettingsAdmin() {
             <h2 className="col-span-2 text-xl">{T.general}</h2>
             <Field label={T.logo} className="col-span-2">
               <div className="flex items-center gap-3">
-                {s.logo_url && <img src={s.logo_url} alt="" className="size-14 border-[3px] border-ink object-cover" />}
+                {s.logo_url && <img src={resolveAssetUrl(s.logo_url)} alt="" className="size-14 border-[3px] border-ink object-cover" />}
                 <input
                   type="file"
                   accept="image/*"

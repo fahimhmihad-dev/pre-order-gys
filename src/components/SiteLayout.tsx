@@ -6,6 +6,7 @@ import { BRAND, S } from "@/lib/strings.bn";
 import { siteQuery } from "@/lib/public.functions";
 import { useTheme } from "@/hooks/use-theme";
 import { Ticker } from "@/components/brutal";
+import { resolveAssetUrl } from "@/lib/asset-url";
 
 const NAV = [
   { to: "/", label: S.nav.home },
@@ -29,7 +30,7 @@ export function SiteLayout({ children, ticker = true }: { children: ReactNode; t
           <Link to="/" className="flex min-w-0 items-center gap-2">
             {st?.logo_url ? (
               <img
-                src={st.logo_url}
+                src={resolveAssetUrl(st.logo_url)}
                 alt={BRAND}
                 className="size-10 shrink-0 object-contain"
               />
@@ -95,7 +96,7 @@ export function SiteLayout({ children, ticker = true }: { children: ReactNode; t
             <div className="flex items-center gap-2">
               {st?.logo_url && (
                 <img
-                  src={st.logo_url}
+                  src={resolveAssetUrl(st.logo_url)}
                   alt=""
                   className="size-9 shrink-0 object-contain"
                 />

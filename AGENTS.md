@@ -15,3 +15,4 @@
 - Progress/overbooking are computed in Postgres (campaign_counted_qty, orders_guard trigger), never trusted from the client.
 - Admin pages live under src/routes/_authenticated/admin.*; access is enforced by user_roles + RLS, UI checks are cosmetic.
 - Images use the private "media" bucket with long-lived signed URLs (workspace blocks public buckets).
+- Resolve Lovable-hosted logo paths through src/lib/asset-url.ts at every display point; third-party deployments do not serve Lovable's asset path.
