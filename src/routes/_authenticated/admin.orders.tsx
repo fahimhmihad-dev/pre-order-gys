@@ -67,6 +67,14 @@ function OrdersAdmin() {
     refresh();
   }
 
+  async function setPay(o: Order, payment_status: PaymentStatus) {
+    const { error } = await supabase.from("orders").update({ payment_status }).eq("id", o.id);
+    if (error) return void toast.error(rpcErrorText(error.message));
+    await logActivity("update", "order", o.id, { code: o.order_code, payment: `${o.payment_status} → ${payment_status}` });
+    toast.success(S.common.saved);
+    refresh();
+  }
+
   async function remove(o: Order) {
     const { error } = await supabase.from("orders").delete().eq("id", o.id);
     if (error) return void toast.error(S.common.error);
@@ -158,7 +166,23 @@ function OrdersAdmin() {
           { key: "am", label: O.amount, render: (o) => money(o.quantity * Number(campMap.get(o.campaign_id)?.price ?? 0)) },
           { key: "m", label: O.method, render: (o) => methodLabel(o.payment_method) },
           { key: "t", label: O.trx, render: (o) => <span className="font-mono">{o.transaction_id || "—"}</span> },
-          { key: "ps", label: O.payment, render: (o) => <Badge tone={o.payment_status}>{S.paymentStatus[o.payment_status]}</Badge> },
+          {
+            key: "ps",
+            label: O.payment,
+            render: (o) => (
+              <>
+                <span className="hidden print:inline">{S.paymentStatus[o.payment_status]}</span>
+                <Select
+                  aria-label={O.payment}
+                  value={o.payment_status}
+                  onChange={(e) => setPay(o, e.target.value as PaymentStatus)}
+                  className="no-print min-h-8 w-28 py-0 text-[11px] font-bold"
+                >
+                  {PAYMENT_STATUSES.map((s) => <option key={s} value={s}>{S.paymentStatus[s]}</option>)}
+                </Select>
+              </>
+            ),
+          },
           { key: "s", label: O.status, render: (o) => <Badge tone={o.status}>{S.orderStatus[o.status]}</Badge> },
           { key: "d", label: O.date, render: (o) => bnDate(o.created_at, true) },
         ]}
